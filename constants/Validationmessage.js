@@ -12,3 +12,18 @@ export const ValidationBootcampMessage ={
     REQUIRED_ADDRESS_MESSAGE:"Address field is required", 
     REQUIRED_CARRER_MESSAGE:"Carrer field is required", 
 }
+
+
+export const ValidationUserMessage={
+    REQUIRED_Email_MESSAGE:"Email  field is required",  
+    UNIQUE_EMAIL_MESSAGE:"Email must be unique",
+    VALID_Email_MESSAGE:"Enter the valid Email",
+
+    REQUIRED_PASSWORD_MESSAGE:"Password field is required",
+    VALID_PASSWORD_MESSAGE:"Minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character:",
+
+    VALID_NAME_MESSAGE:"Enter the valid Name",
+    REQUIRED_Name_MESSAGE:"Name  field is required",  
+
+    
+}
