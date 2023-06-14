@@ -25,5 +25,5 @@ app.use(morgan('dev'))
 
 // listening to the port 
 app.listen(PORT,()=>{
-    console.log(`running in ${process.env.NODE_ENV} at the port  ${PORT}`)
+    console.log(`running in ${process.env.NODE_ENV} mode  at the port  ${PORT}`)
 })
