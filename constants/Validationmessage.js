@@ -5,7 +5,7 @@ export const ValidationBootcampMessage ={
     MAX_RATING_MESSAGE:"Maximum Rating should be of 10",
     REQUIRE_NAME_MESSAGE:"Bootcamp name is required",
     REQUIRE_DESCRIPTION_MESSAGE:"Bootcamp description is required",
-    VALID_WEBSITE_MESSAGE:"Bootcamp description is required",
+    VALID_WEBSITE_MESSAGE:"give the valid url link",
     VALID_PHONE_MESSAGE:"Phone number cannot be larger than 20 numbers",
     VALID_EMAIL_MESSAGE:"Enter the valid email",
     REQUIRED_EMAIL_MESSAGE:" Email field is required",
