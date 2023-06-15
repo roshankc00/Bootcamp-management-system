@@ -45,6 +45,7 @@ export const loginUser=asyncHandler(async(req,res)=>{
         res.status(200).json({
             status:true,
             message:"logged In sucessfully",
+            findUser
         })
         
     }else{
@@ -70,3 +71,54 @@ export const forgetPassword=asyncHandler(async(req,res)=>{
         throw new Error(error)
     }
 })
+
+
+export const getme=asyncHandler(async(req,res)=>{
+    try {
+        const user=req.user
+        if(!user){
+            throw new Error("please login first")
+        }
+        res.status(200).json({
+            sucess:true,
+            user
+        })
+    } catch (error) {
+        throw new Error(error)
+        
+    }
+})
+
+
+// get a single user 
+export const getASingleUser=asyncHandler(async(req,res)=>{
+    try {
+        const user=await User.findById(req.params.id)
+        if(!user){
+            throw new Error("user doesnt exists")
+        }
+        res.status(200).json({
+            sucess:true,
+            user
+        })
+    } catch (error) {
+        throw new Error(error)
+        
+    }
+})
+
+
+export const  AllUsers=async(req,res)=>{
+    try {
+        let users=await User.find({})
+        res.status(200).json({
+            sucess:true,
+            users
+        })
+    } catch (error) {
+        throw new Error(error)
+        
+    }
+}
+
+
