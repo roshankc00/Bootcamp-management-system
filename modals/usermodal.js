@@ -23,10 +23,10 @@ const userSchema=mongoose.Schema({
     password:{
         type:String,
         required:[true,ValidationUserMessage.REQUIRED_Name_MESSAGE],
-        match:[
-            /"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$"/,
-            ValidationUserMessage.VALID_PASSWORD_MESSAGE
-        ]
+        // match:[
+        //     /"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$"/,
+        //     ValidationUserMessage.VALID_PASSWORD_MESSAGE
+        // ]
     },
     resetPasswordToken:{
         type:String
@@ -52,6 +52,7 @@ userSchema.methods.getResetToken=function(){
     .digest("hex");
     // 10minutes 
     this.resetPasswordExpire=Date.now()+10*60*1000;
+    console.log(this)
     return resetToken
 }
 
