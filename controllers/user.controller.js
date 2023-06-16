@@ -1,9 +1,9 @@
 import asyncHandler from 'express-async-handler'
 import jwt from 'jsonwebtoken'
 import User from '../modals/usermodal.js'
-import nodemmailer from 'nodemailer'
 import  sendEmail  from '../utils/sendEmail.js'
 import crypto from 'crypto'
+import { validateMongodbId } from '../utils/validateMongoDbId.js'
 export const  registerme=asyncHandler(async(req,res)=>{
     const {email}=req.body
 try {
@@ -53,7 +53,7 @@ export const loginUser=asyncHandler(async(req,res)=>{
     }else{
         throw new Error("invalid credentials")
     }
-
+    
 })
 
 
@@ -129,7 +129,7 @@ export const resetPassword=asyncHandler(async(req,res)=>{
        
         
     } catch (error) {
-  
+        
         throw new Error(error)
 
         
@@ -156,7 +156,7 @@ export const getme=asyncHandler(async(req,res)=>{
     } catch (error) {
         
         throw new Error(error)
-
+        
         
     }
 })
@@ -165,6 +165,7 @@ export const getme=asyncHandler(async(req,res)=>{
 // get a single user 
 export const getASingleUser=asyncHandler(async(req,res)=>{
     try {
+        validateMongodbId(req.params.id)
         const user=await User.findById(req.params.id)
         if(!user){
             throw new Error("user doesnt exists")
@@ -180,6 +181,7 @@ export const getASingleUser=asyncHandler(async(req,res)=>{
 })
 
 
+// get all the user 
 export const  AllUsers=async(req,res)=>{
     try {
         let users=await User.find({})
@@ -194,3 +196,52 @@ export const  AllUsers=async(req,res)=>{
 }
 
 
+// updade the user password 
+export const updateUserPassword=asyncHandler(async(req,res)=>{
+    try {
+        const {oldPassword,email,newPassword}=req.body
+        const user=await User.findOne({email})
+        if(!user){
+            throw new Error('user doesnt exists')
+        }
+        if(req.user._id.toString()!==user._id.toString()){
+            throw new Error('change your own password')
+        }       
+        user.password=newPassword
+        await user.save()
+        res.status(200).json({
+            sucess:true,
+            message:"user password has been sucessfully updated"
+        })
+    } catch (error) {
+        throw new Error(error)
+        
+    }
+
+})
+
+
+// delete the user 
+export const deleteUser=asyncHandler(async(req,res)=>{
+    try {
+        validateMongodbId(req.params.id)
+        const deletedUser=await User.findByIdAndDelete(req.params.id)
+        
+    } catch (error) {
+        throw new Error(error)
+        
+    }
+})
+
+
+
+// update the user 
+export const updateUser=asyncHandler(async(req,res)=>{
+    validateMongodbId(req.params.id)
+    const user =await User.findByIdAndUpdate(req.params.id,req.body,{new:true})
+    res.status(200).json({
+        sucess:true,
+        message:"user has been updated sucessfully",
+        user
+    })
+})

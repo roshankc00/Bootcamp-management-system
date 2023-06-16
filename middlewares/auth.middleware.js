@@ -19,7 +19,6 @@ export const authMiddleware=asyncHandler(async(req,res,next)=>{
             
         }
     }else{
-        console.log(token,"this")
         throw new Error("There is no token attach to the header")
         
     }
@@ -27,6 +26,13 @@ export const authMiddleware=asyncHandler(async(req,res,next)=>{
 
 
 
+export const checkRole=(...roles)=>asyncHandler((req,res,next)=>{
+    if(roles.includes(req.user.role)){
+        next()
+    }else{
+        throw new Error("you are not authorize to access this resource")
+    }
 
+})
 
 
