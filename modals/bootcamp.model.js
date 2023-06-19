@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { ValidationBootcampMessage } from "../constants/Validationmessage";
-
+import slugify from "slugify";
 const bootcampSchema=new mongoose.Schema({
     name:{
         type:String,
@@ -24,7 +24,8 @@ const bootcampSchema=new mongoose.Schema({
     },
     phone:{
         type:Number,
-        max:[20,ValidationBootcampMessage.VALID_PHONE_MESSAGE]
+        max:[20,ValidationBootcampMessage.VALID_PHONE_MESSAGE],
+        required:true
     },
     email:{
         type:String,
@@ -77,6 +78,17 @@ const bootcampSchema=new mongoose.Schema({
    }
 
 },{timestamps:true}) 
+
+
+
+
+bootcampSchema.pre('save',async function(next){
+    this.slug=slugify(this.name.toLowerCase())
+
+})
+
+
+
 
 
 const Bootcamp=mongoose.model("Bootcamp",bootcampSchema)

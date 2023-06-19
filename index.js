@@ -31,7 +31,7 @@ app.use(mongoSanitize())
 
 // routes 
 app.use('/api/v1/user',userRoute)
-// app.use('/api/v1',bootcampRoute)
+app.use('/api/v1',bootcampRoute)
 // app.use('/api/v1',reviewRoute)
 // app.use('/api/v1',courseRoute)
 
