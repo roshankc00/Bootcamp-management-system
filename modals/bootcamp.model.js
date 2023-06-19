@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ValidationBootcampMessage } from "../constants/Validationmessage";
+import { ValidationBootcampMessage } from "../constants/Validationmessage.js";
 import slugify from "slugify";
 const bootcampSchema=new mongoose.Schema({
     name:{
@@ -9,7 +9,7 @@ const bootcampSchema=new mongoose.Schema({
         trim:true,
         minlength:[5,ValidationBootcampMessage.MIN_LENGTH_MESSAGE]
     },
-    slug:string,
+    slug:String,
     description:{
         type:String,
         required:[true,ValidationBootcampMessage.REQUIRE_DESCRIPTION_MESSAGE],
@@ -25,7 +25,6 @@ const bootcampSchema=new mongoose.Schema({
     phone:{
         type:Number,
         max:[20,ValidationBootcampMessage.VALID_PHONE_MESSAGE],
-        required:true
     },
     email:{
         type:String,
@@ -56,7 +55,7 @@ const bootcampSchema=new mongoose.Schema({
     min:[1,ValidationBootcampMessage.MIN_RATING_MESSAGE],
     max:[1,ValidationBootcampMessage.MAX_RATING_MESSAGE]
    },
-   avarageCost:{
+   averageCost:{
     type:Number,
     required:true
    },
