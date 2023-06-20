@@ -7,8 +7,8 @@ const router=express.Router()
 
 router.post('/bootcamp',authMiddleware,upload.single('photo'),addBootcamp)
 router.delete('/boorcamp/:id',deleteBootcamp)
-router.delete('/boorcamp/:id',getASingleBootcamp)
-router.delete('/boorcamps',getAllBootcamp)
+router.get('/bootcamp/:id',getASingleBootcamp)
+router.get('/bootcamps',getAllBootcamp)
 
 export default router 
 
