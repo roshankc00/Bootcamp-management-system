@@ -68,7 +68,7 @@ export const getAllBootcamp=asyncHandler(async(req,res)=>{
         let query; 
         const reqQuery={...req.query}
         // fields to remove 
-        const removeFields=['select','sort']
+        const removeFields=['select','sort',"page","limit"]
         removeFields.forEach(param=>delete reqQuery[param]) 
 
 
@@ -96,24 +96,24 @@ export const getAllBootcamp=asyncHandler(async(req,res)=>{
             appendFiterQuery=   appendFiterQuery.sort('-createdAt')
           
         }
+        // pagination
+           let page=Number(req.query.page) || 1
+            let limit=Number(req.query.limit) || 10
+            let skip=(page-1)*limit
+            console.log(limit,skip,"wow")
+            appendFiterQuery=appendFiterQuery.skip(skip).limit(limit)
+
+            const total=await  Bootcamp.countDocuments()
 
 
-
-
-
-
-
-
-        let bootcamps=await appendFiterQuery;
-        
-        res.send(bootcamps)
+            let bootcamps=await appendFiterQuery;
+            res.send({bootcamps,total})
 
        
     } catch (error) {
         throw new Error(error)
     }
 })
-
 
 
 
