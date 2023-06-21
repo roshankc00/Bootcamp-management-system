@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import cloudinary from '../config/cloudinary.config.js'
 import Bootcamp from '../modals/bootcamp.model.js';
 import { validateMongodbId } from '../utils/validateMongoDbId.js';
+import CourseModel from '../modals/courses.model.js';
 export const addBootcamp=asyncHandler(async(req,res)=>{
     try {
         const {name,description,phone,email,address,careers,averageCost}=req.body
@@ -10,6 +11,7 @@ export const addBootcamp=asyncHandler(async(req,res)=>{
             name,description,phone,email,address,averageCost,careers,
             user:req.user._id,
             photo:uploadedFile.secure_url,
+            photo_public_id:uploadedFile.public_id
         })      
         res.send(creater)
         
@@ -51,6 +53,9 @@ export const deleteBootcamp=asyncHandler(async(req,res)=>{
         if(boot.user.toString!==req.user._id.toString()  || req.user.role !=="admin"){
             throw new Error('you are not authorize to delete this bootcamp')
         }
+        // deleting all the courses related to the bootcamp
+        const deletedCourse=await CourseModel.deleteMany({bootcamp:boot._id})
+        // deleting the bootcamp
         const deleteBootcamp=await Bootcamp.findByIdAndDelete(req.params.id)
         res.status(200).json({
             sucess:true,
@@ -65,50 +70,7 @@ export const deleteBootcamp=asyncHandler(async(req,res)=>{
 // get all the bootcamp
 export const getAllBootcamp=asyncHandler(async(req,res)=>{
     try {
-        let query; 
-        const reqQuery={...req.query}
-        // fields to remove 
-        const removeFields=['select','sort',"page","limit"]
-        removeFields.forEach(param=>delete reqQuery[param]) 
-
-
-        
-
-        // filtering 
-        let queryStr=JSON.stringify(reqQuery)
-        query= queryStr.replace(/\b(gt|gte|lt|lte|eq|ne|in)\b/g,match=>`$${match}`)
-        query=JSON.parse(query)
-        let appendFiterQuery= Bootcamp.find(query)
-        
-        // selecting the fields 
-        if(req.query.select){
-            const fields=req.query.select.split(',').join(' ');
-            console.log(fields)
-            appendFiterQuery=   appendFiterQuery.select(fields)
-        }
-
-        // sorting
-        if(req.query.sort){
-            const fields=req.query.select.split(',').join(' ');
-            console.log(fields)
-            appendFiterQuery=   appendFiterQuery.sort('-averageCost')
-        }else{
-            appendFiterQuery=   appendFiterQuery.sort('-createdAt')
-          
-        }
-        // pagination
-           let page=Number(req.query.page) || 1
-            let limit=Number(req.query.limit) || 10
-            let skip=(page-1)*limit
-            console.log(limit,skip,"wow")
-            appendFiterQuery=appendFiterQuery.skip(skip).limit(limit)
-
-            const total=await  Bootcamp.countDocuments()
-
-
-            let bootcamps=await appendFiterQuery;
-            res.send({bootcamps,total})
-
+        res.status(200).json(res.filterData)
        
     } catch (error) {
         throw new Error(error)
@@ -117,8 +79,28 @@ export const getAllBootcamp=asyncHandler(async(req,res)=>{
 
 
 
+// update the bootcamps
+export const updateBootcamp=asyncHandler(async(req,res)=>{
+    try {
+        const id=req.params.id
+        validateMongodbId(id)
+        const bootcamp=await Bootcamp.findById(id)
+        if(!bootcamp){
+            throw new Error("bootcamp not found")
+        }
+        if(req.user._id.toString()!==bootcamp.user || req.user.role!=='admin'){
+            throw new Error("you are not authorize to access this resource")
+        }
+        const updatedBootcamp=await Bootcamp.findByIdAndUpdate(id,req.body,{new:true})
+        res.status(200).json({
+            sucess:true,
+            message:"updated sucessfully",
+            updateBootcamp
+        })
+        
+    } catch (error) {
+        throw new Error(error)
+    }
+})
 
 
-
-// filtering searching AND PEGINATION IS HERE D
-// thanks for the details and details 

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ValidationCourseMessage } from "../constants/Validationmessage";
+import { ValidationCourseMessage } from "../constants/Validationmessage.js";
 
 const courseSchema=new mongoose.Schema({
     title:{

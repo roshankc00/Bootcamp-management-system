@@ -62,6 +62,9 @@ const bootcampSchema=new mongoose.Schema({
    photo:{
     type:String
    },
+   photo_public_id:{
+    type:String
+   },
    jobGuarantee:{
     type:Boolean,
     default:false
@@ -92,3 +95,4 @@ bootcampSchema.pre('save',async function(next){
 
 const Bootcamp=mongoose.model("Bootcamp",bootcampSchema)
 export default Bootcamp
+
