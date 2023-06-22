@@ -93,6 +93,6 @@ bootcampSchema.pre('save',async function(next){
 
 
 
-const Bootcamp=mongoose.model("Bootcamp",bootcampSchema)
-export default Bootcamp
+const BootcampModel=mongoose.model("Bootcamp",bootcampSchema)
+export default BootcampModel
 

@@ -7,9 +7,10 @@ import { handleError, notFound } from './middlewares/errorhandler.js'
 import morgan from 'morgan'
 import mongoSanitize from 'express-mongo-sanitize'
 import userRoute from './routes/user.router.js'
-import courseRoute from './routes/course.router.js'
 import reviewRoute from './routes/review.router.js'
 import  bootcampRoute from './routes/bootcamp.router.js'
+import  courseRoute from './routes/course.router.js'
+import  swaggerRoute from './routes/swagger.route.js'
 
 // rest variable
 dotenv.config({path:"config/.env"})
@@ -32,8 +33,9 @@ app.use(mongoSanitize())
 // routes 
 app.use('/api/v1/user',userRoute)
 app.use('/api/v1',bootcampRoute)
-// app.use('/api/v1',reviewRoute)
-// app.use('/api/v1',courseRoute)
+app.use('/api/v1',reviewRoute)
+app.use('/api/v1',courseRoute)
+app.use('/swagger',swaggerRoute)
 
 app.use(notFound)
 app.use(handleError)
