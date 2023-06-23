@@ -4,6 +4,14 @@ import User from '../modals/usermodal.js'
 import  sendEmail  from '../utils/sendEmail.js'
 import crypto from 'crypto'
 import { validateMongodbId } from '../utils/validateMongoDbId.js'
+
+
+ 
+
+
+
+
+
 export const  registerme=asyncHandler(async(req,res)=>{
     const {email}=req.body
 try {
@@ -40,7 +48,7 @@ export const loginUser=asyncHandler(async(req,res)=>{
     const token =jwt.sign({id:findUser._id},process.env.SECRET)
     res.status(200).json({
         sucess:true,
-        message:"user has been created sucessfully",
+        message:"user has been loged in sucessfully",
         token
     })
     if(findUser && await findUser.isPasswordMatched(password)){
