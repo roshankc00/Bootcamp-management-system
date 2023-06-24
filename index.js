@@ -35,7 +35,7 @@ app.use(helmet())
 app.use(hpp())
 app.use(
     rateLimit({
-      windowMs: 12 * 60 * 60 * 1000, // 12 hour duration in milliseconds
+      windowMs: 12 * 60 * 60 * 1000,
       max: 100,
       message: "You exceeded 100 requests in 12 hour limit!",
       headers: true,

@@ -12,7 +12,7 @@ const options = {
       title: 'Bootcamp management system ',
       version: '1.0.0',
     },
-    components:{
+    components: {
       securitySchemes:{
         barerAuth:{
           type:'http',
@@ -21,7 +21,7 @@ const options = {
         }
       }
     },
-    security:[{
+    security: [{
       bearerAuth: []
     }], 
 
