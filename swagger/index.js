@@ -16,13 +16,13 @@ const options = {
       securitySchemes:{
         barerAuth:{
           type:'http',
-          schema:'bearer',
+          schema:'bearer', 
           bearerFormat:"JWT",
         }
       }
     },
     security:[{
-      bearerAuth:[]
+      bearerAuth: []
     }], 
 
 

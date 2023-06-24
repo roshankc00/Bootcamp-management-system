@@ -40,16 +40,15 @@ const router=express.Router()
  * 
 */
 router.post("/register",registerme)
-
 /**
  * @swagger
  * /user/login:
  *   post:
- *     summary: login  the user.
+ *     summary: L ogin  the user.
  *     tags: [User]
  *     requestBody:
  *      content:
- *       application/json:
+ *       application/json: 
  *         schema:
  *          type: object
  *          properties:
@@ -67,15 +66,61 @@ router.post("/register",registerme)
  *        description: User not found 
  *       500:
  *        description: internal server Error
- *
- * 
- *           
- * 
 */
-
 router.post("/login",loginUser)
-router.get("/forgetpassword",forgetPassword)
+ /**
+ * @swagger
+ * /user/forgetpassword:
+ *   post:
+ *     summary: Forget  the password.
+ *     tags: [User]
+ *     requestBody:
+ *      content:
+ *       application/json: 
+ *         schema:
+ *          type: object
+ *          properties:
+ *            email:
+ *             type: string
+ *          example:
+ *              email: roshankc@gmail.com
+ *     responses:
+ *       200:
+ *        description: mail sent sucessfully
+ *       400:
+ *        description: User not found 
+ *       500:
+ *        description: internal server Error
+*/
+router.post("/forgetpassword",forgetPassword)
+ /**
+ * @swagger
+ * /user/resetpassword/:token:
+ *   post:
+ *     summary: Forget  the password.
+ *     tags: [User]
+ *     requestBody:
+ *      content:
+ *       application/json: 
+ *         schema:
+ *          type: object
+ *          properties:
+ *            password:
+ *             type: string
+ *            conformPassword:
+ *             type: string
+ *          example:
+ *              email: roshankc@gmail.com
+ *     responses:
+ *       200:
+ *        description: mail sent sucessfully
+ *       400:
+ *        description: User not found 
+ *       500:
+ *        description: internal server Error
+*/
 router.put("/resetpassword/:token", resetPassword)
+
 router.get("/me",authMiddleware,getme)
 router.put("/updatepassword",authMiddleware,updateUserPassword)
 router.get("/:id",authMiddleware,checkRole('admin'),getASingleUser)
